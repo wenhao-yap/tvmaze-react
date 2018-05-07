@@ -1,3 +1,4 @@
+/*eslint-disable*/
 var results = [  
     {  
         "score":16.974672,
