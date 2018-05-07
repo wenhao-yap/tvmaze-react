@@ -1,5 +1,5 @@
 /*eslint-disable*/
-var results = [  
+export const results = [  
     {  
         "score":16.974672,
         "show":{  
