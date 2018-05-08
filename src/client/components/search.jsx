@@ -1,5 +1,5 @@
 /*eslint-disable*/
-
+import PropTypes from 'prop-types';
 import React from 'react';
 import classes from'./components.css';
 
@@ -16,6 +16,11 @@ class Search extends React.Component{
   			</div>
   		);
   	}
+}
+
+Search.propTypes = {
+  input: PropTypes.string,
+  search: PropTypes.string
 }
 
 export default Search;

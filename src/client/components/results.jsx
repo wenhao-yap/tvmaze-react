@@ -1,5 +1,5 @@
 /*eslint-disable*/
-
+import PropTypes from 'prop-types';
 import React from 'react';
 // import {results} from '../../../results';
 import {queryTVMazeAPI} from '../Util';
@@ -15,7 +15,7 @@ class Results extends React.Component{
   	}
 
     componentDidMount(){
-      queryTVMazeAPI(this.props.search, (res) => {
+      queryTVMazeAPI(this.props.search.toLowerCase(), (res) => {
         this.setState({data: res})
       })
     }
@@ -41,6 +41,10 @@ class Results extends React.Component{
   			</div>
   		);
   	}
+}
+
+Results.propTypes = {
+  search: PropTypes.string
 }
 
 export default Results;
