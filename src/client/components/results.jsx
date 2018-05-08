@@ -17,10 +17,10 @@ class Results extends React.Component{
     }
 
   	render(){
-  		let query = this.props.query.toUpperCase();
-  		if(query){
+  		let search = this.props.search.toUpperCase();
+  		if(search){
 	  		this.state.output = this.state.data.map(item => {
-	  			if(item.show.name.toUpperCase().includes(query)){
+	  			if(item.show.name.toUpperCase().includes(search)){
 	  				return (
 	  					<div key={item.show.id}>
 	  						<img src={item.show.image.medium} />

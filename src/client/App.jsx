@@ -1,10 +1,9 @@
 import React from 'react';
-import {hot} from 'react-hot-loader';
 
 import Search from './components/search';
 import Results from './components/results';
 
-class App extends React.component{
+class App extends React.Component{
 	constructor(){
 		super();
 		this.state = {
@@ -22,14 +21,13 @@ class App extends React.component{
   		event.preventDefault();
   		this.setState({search:this.state.input});
   		event.target.value = '';
-  		console.log("Following query has been made: " + this.state.search);
   	}
 
 	render(){
 		return(
 		  <div>
-		    <Search updateInput = {this.updateInput} handleSubmit = {this.handleSubmit(event)} input = {this.state.input} search = {this.state.search}/>
-		    <Results search={this.state.input}/>
+		    <Search updateInput = {(e) => this.updateInput(e)} handleSubmit = {(e) => this.handleSubmit(e)} input = {this.state.input} search = {this.state.search}/>
+		    <Results search={this.state.search}/>
 		  </div>			
 		);
 	}
