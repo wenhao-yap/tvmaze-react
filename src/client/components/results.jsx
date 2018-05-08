@@ -1,38 +1,39 @@
+/*eslint-disable*/
+
 import React from 'react';
-import {results} from '../../../results';
+// import {results} from '../../../results';
+import {queryTVMazeAPI} from '../Util';
+import classes from'./components.css';
 
 class Results extends React.Component{
-	constructor(){
+	  constructor(){
       super();
   		this.state = {
-  			data:{},
+  			data:[],
   			output:''
   		}
   	}
 
-  	componentDidMount(){
-        this.setState({
-           	data:{results}.results
-        })
+    componentDidMount(){
+      queryTVMazeAPI(this.props.search, (res) => {
+        this.setState({data: res})
+      })
     }
 
   	render(){
-  		let search = this.props.search.toUpperCase();
-  		if(search){
-	  		this.state.output = this.state.data.map(item => {
-	  			if(item.show.name.toUpperCase().includes(search)){
-	  				return (
-	  					<div key={item.show.id}>
-	  						<img src={item.show.image.medium} />
-		  					<p>Name: {item.show.name}</p>
-		  					<p>Type: {item.show.type}</p>
-		  					<p>Language: {item.show.language}</p>
-		  					<p>Genres: {item.show.genres}</p>
-	  					</div>
-	  				)
-	  			}
-	  		});
-	  	}
+      if(this.state.data.length > 0){
+    		this.state.output = this.state.data.map(item => {
+  				return (
+  					<div key={item.show.id} className={`${classes.eachResult} eachResult`}>
+              {item.show.image != null ? (<img src={item.show.image.medium} />):(<h2>NO IMAGE FOUND</h2>)}
+	  					<p>Name: {item.show.name}</p>
+	  					<p>Type: {item.show.type}</p>
+	  					<p>Language: {item.show.language}</p>
+	  					<p>Genres: {item.show.genres}</p>
+  					</div>
+  				)
+    		});
+      }
 
   		return(
   			<div className = "results">

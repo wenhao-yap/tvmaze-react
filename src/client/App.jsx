@@ -1,3 +1,5 @@
+/*eslint-disable*/
+
 import React from 'react';
 
 import Search from './components/search';
@@ -13,8 +15,7 @@ class App extends React.Component{
 	}
 
 	updateInput(event){
-  		this.setState({input:event.target.value});
-  		console.log("currently inputing: " + this.state.input);  		
+  		this.setState({input:event.target.value});		
   	}
 
   	handleSubmit(event){
@@ -27,7 +28,9 @@ class App extends React.Component{
 		return(
 		  <div>
 		    <Search updateInput = {(e) => this.updateInput(e)} handleSubmit = {(e) => this.handleSubmit(e)} input = {this.state.input} search = {this.state.search}/>
-		    <Results search={this.state.search}/>
+		    {this.state.search.length > 0  &&
+        		<Results search={this.state.search}/>
+      		}
 		  </div>			
 		);
 	}

@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+
+.result{
+	width:100%;
+}
+.eachResult{
+	width:20%;
+	display:inline-block;
+	margin:5px;
+}
+.wrapper{
+	font-family: Quicksand, Helvetica, sans-serif;
+}
