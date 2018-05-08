@@ -1,9 +1,9 @@
 import React from 'react';
-import {results} from '../../../../results';
+import {results} from '../../../results';
 
 class Results extends React.Component{
 	constructor(){
-  		super();
+      super();
   		this.state = {
   			data:{},
   			output:''
@@ -17,10 +17,10 @@ class Results extends React.Component{
     }
 
   	render(){
-  		let search = this.props.search.toUpperCase();
-  		if(search){
+  		let query = this.props.query.toUpperCase();
+  		if(query){
 	  		this.state.output = this.state.data.map(item => {
-	  			if(item.show.name.toUpperCase().includes(search)){
+	  			if(item.show.name.toUpperCase().includes(query)){
 	  				return (
 	  					<div key={item.show.id}>
 	  						<img src={item.show.image.medium} />
