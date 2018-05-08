@@ -10,7 +10,7 @@ class Results extends React.Component{
   		}
   	}
 
-  	componentWillMount(){
+  	componentDidMount(){
         this.setState({
            	data:{results}.results
         })

@@ -34,7 +34,8 @@ Given these breakdowns we have a component hierarchy that looks like:
     - `Result`
 
 #### Sample Data
-Use `results.json` as the result you would get back from any search.
+Use `results.js` as the result you would get back from any search.
+
 
 ## [Build a Static Version of the App](https://facebook.github.io/react/docs/thinking-in-react.html#step-2-build-a-static-version-in-react)
 
@@ -85,8 +86,67 @@ We will need three functions defined on the `SearchContainer` component to provi
 
 > What is the point of all of these `.bind(this)` statements?
 
-### Further
-Create the ability to sort on different fields.
+## Pre-API Integration Steps
+
+Make sure that your TVMaze application handles user input properly.
+
+### Handling User Input
+
+The user-inputted value will be `SearchContainer`'s `this.state.query`, after you've done the following things...
+1. In `SearchContainer`, add the `handleSearchInput` method to the `class`, and bind it in the `constructor`, if you have not already.
+2. Pass `handleSearchInput` to the `Search` component via props.
+3. In `Search`, you'll have to use the `onChange` event-listener prop to attach the method `handleSearchInput` from `SearchContainer`, available in `Search` as `this.props.handleSubmitInput`. [See here for an example from the React docs](https://reactjs.org/docs/forms.html#controlled-components).
+
+> `handleSearchInput` is being passed down from `SearchContainer`, the parent element, to `Search` the child component. In React's model of unidirectional data-flow, parent components cannot be changed by their children **unless the parent component provides a helper method to its children, passed down via props, that changes the state on the parent**.
+
+## Integrate with the TVMaze API
+
+> Documentation here: https://www.tvmaze.com/api#show-search
+
+There, you'll see an example of a URL you can use to query the TVMaze API. Ultimately, you'll want to replace the example tv program, `girls`, with whatever the user has input into the text box. This should be the value of `SearchContainer`'s `this.state.query`, after you've set everything up properly.
+
+### Fetching Data from the API with fetch
+
+> Create a new file called `Util.js`. Export a function like so...
+
+```js
+export queryTVMazeAPI (query) => {
+  // fill url in with a URL based on the example at:
+  // https://www.tvmaze.com/api#show-search
+  // replace a part of the example URL with the user input, which you can 
+  // assume will be the parameter of this function, `query`
+  const url = ''
+  fetch(url)
+    .then((response) => {
+        if (response.status !== 200) {
+          console.log('Looks like there was a problem. Status Code: ' +
+            response.status);
+          return;
+        }
+
+        // Examine the text in the response
+        response.json().then(function(data) {
+          console.log(data); //make sure to return something
+        });
+      }
+    )
+    .catch((err) => {
+      console.log('Fetch Error :-S', err);
+    });
+}
+```
+
+> Import this function in `SearchContainer` like so...
+
+```js
+//somewhere at the top of SearchContainer...
+import {queryTVMazeAPI} from './Util'
+```
+
+You can now use your queryTVMazeAPI function, which takes one argument, in `SearchContainer`. You will want to pass the user's query as argument to this function when a user has submitted a search.
 
 ### Further
-Link the show result to another part of the TVmaze api. By hand, download and include the results of that api search to use in your react app.
+Implement error handling for the fetch. Re-do the request __x__ times before you message the user that it failed.
+
+### Further
+Create functionality for infinite scroll of tvmaze's full schedule: [https://www.tvmaze.com/api#full-schedule](https://www.tvmaze.com/api#full-schedule)
