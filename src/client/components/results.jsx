@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {queryTVMazeAPI,fullTVMazeAPI} from '../Util';
 import classes from'./components.css';
+import { withRouter } from 'react-router-dom';
 
 class Results extends React.Component{
 	  constructor(){
@@ -115,4 +116,5 @@ Results.propTypes = {
   search: PropTypes.string
 }
 
-export default Results;
+// export default Results;
+export default withRouter(Results);

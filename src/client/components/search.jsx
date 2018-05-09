@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classes from'./components.css';
+import { withRouter } from 'react-router-dom';
 
 class Search extends React.Component{
   	render(){
@@ -23,4 +24,5 @@ Search.propTypes = {
   search: PropTypes.string
 }
 
-export default Search;
+// export default Search;
+export default withRouter(Search);
