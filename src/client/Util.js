@@ -1,11 +1,6 @@
 /*eslint-disable*/
 
-export let queryTVMazeAPI = (query,callback) =>{
-  // fill url in with a URL based on the example at:
-  // https://www.tvmaze.com/api#show-search
-  // replace a part of the example URL with the user input, which you can 
-  // assume will be the parameter of this function, `query`
-  const url = 'http://api.tvmaze.com/search/shows?q=' + query;
+let fetchAPI = (url,callback) => {
   fetch(url)
     .then((response) => {
       if (response.status !== 200) {
@@ -14,10 +9,21 @@ export let queryTVMazeAPI = (query,callback) =>{
         return;
       }
       response.json().then((data) =>{
+        console.log("fetching data");
         callback(data); //make sure to return something
       });
     })
     .catch((err) => {
       console.log('Fetch Error :-S', err);
-    });
+  });
+}
+
+export let queryTVMazeAPI = (query,callback) =>{
+  const url = 'http://api.tvmaze.com/search/shows?q=' + query;
+  fetchAPI(url,callback);
+}
+
+export let fullTVMazeAPI = (page,callback) =>{
+  const url = 'http://api.tvmaze.com/shows?page=' + page;
+  fetchAPI(url,callback)
 }
