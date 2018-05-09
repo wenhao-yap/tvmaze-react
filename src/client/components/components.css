@@ -11,3 +11,10 @@
 .wrapper{
 	font-family: Quicksand, Helvetica, sans-serif;
 }
+.dataLoading {
+  display: block;
+  text-align: center;
+  background-color: #eeeeee;
+  border: 0;
+  font-size: 5rem;
+}

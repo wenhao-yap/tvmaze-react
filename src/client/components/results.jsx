@@ -10,8 +10,10 @@ class Results extends React.Component{
   		this.state = {
   			data:[],
   			output:'',
-        page: 1
-  		}
+        page: 1,
+        requestSent: false
+  		};
+      this.handleOnScroll = this.handleOnScroll.bind(this);
   	}
 
     componentDidMount(){
@@ -21,9 +23,20 @@ class Results extends React.Component{
       fullTVMazeAPI(this.state.page, (res) => {
         this.setState({data:res})
       })
+      window.addEventListener('scroll', this.handleOnScroll);
     }
 
-    loadMore(e){
+    componentWillUnmount() {
+      window.removeEventListener('scroll', this.handleOnScroll);
+    }
+
+
+    loadMore(){
+      if (this.state.requestSent) {
+        return;
+      }      
+      this.setState({requestSent: true});
+
       let nextPage = this.state.page + 1;
       fullTVMazeAPI(nextPage, (res) => {
         console.log("new data received");
@@ -33,9 +46,19 @@ class Results extends React.Component{
         });
         this.setState({
           data:currentData,
-          page:nextPage
+          page:nextPage,
+          requestSent: false
         })
       })      
+    }
+
+    handleOnScroll(){
+      const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
+      const scrollHeight =
+        (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight;
+      const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+      const scrolledToBottom = Math.ceil(scrollTop + clientHeight) >= scrollHeight;
+      if (scrolledToBottom) {this.loadMore();}      
     }
 
   	render(){
@@ -67,10 +90,23 @@ class Results extends React.Component{
       }
 
   		return(
-  			<div className = "results">
-          {this.state.output}
-          <p><button onClick={(e) => this.loadMore(e)}>Load More</button></p>
-  			</div>
+        <div className = "resultsContainer">
+    			<div className = "results">
+            <div>{this.state.output}</div>
+    			</div>
+          <div className = "loader">
+            {(() => {
+              if (this.state.requestSent) {
+                return (
+                  <div className={`${classes.dataLoading} dataLoading`}>
+                    <i className="fa fa-refresh fa-spin" />
+                  </div>
+                );
+              }
+              return <div className={`${classes.dataLoading} dataLoading`} />;
+            })()}
+          </div>
+        </div>
   		);
   	}
 }
